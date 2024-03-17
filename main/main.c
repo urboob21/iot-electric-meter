@@ -4,19 +4,18 @@
 #include "driver/gpio.h"
 #include "sdkconfig.h"
 #include "esp_event.h"
-#include "wifi_app.h"
 #include "nvs_flash.h"
-#include "mqtt_app.h"
-#include "gpio_app.h"
-#include "lcd2004_app.h"
+#include "include.h"
+
+// The callback function when wifi connected
 void wifi_app_register_connected_events()
 {
 	mqtt_app_start();
 }
 
-/**
- * Entry point
- */
+//++++++++++++++++++++++++++++++++++++++++++++++++//
+//					ENTRY POINT					  //
+//++++++++++++++++++++++++++++++++++++++++++++++++//
 void app_main(void)
 {
 	// Initialize NVS
@@ -36,6 +35,4 @@ void app_main(void)
 	
 	// Start Wifi
 	wifi_app_start();
-
-
 }

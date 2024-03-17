@@ -16,12 +16,9 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "freertos/FreeRTOS.h"
+#include "include.h"
 
-#include "tasks_common.h"
-#include "wifi_app.h"
-#include "http_server.h"
-#include "mqtt_app.h"
-#include "nvs_app.h"
+
 
 // Tag used for ESP Serial Console Message
 static const char TAG[] = "Wifi application";

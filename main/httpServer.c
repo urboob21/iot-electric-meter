@@ -15,9 +15,9 @@
 
 #include "esp_ota_ops.h"
 
-#include "http_server.h"
-#include "tasks_common.h"
-#include "wifi_app.h"
+#include "httpServer.h"
+#include "tasksCommon.h"
+#include "wifiApplication.h"
 #include "esp_timer.h"
 
 static const char TAG[] = "HTTP Server application";

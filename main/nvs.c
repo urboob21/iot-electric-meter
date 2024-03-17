@@ -5,8 +5,8 @@
 #include "esp_log.h"
 #include "nvs_flash.h"
 
-#include "nvs_app.h"
-#include "wifi_app.h"
+#include "nvs.h"
+#include "wifiApplication.h"
 
 // Tag for logging to the monitor
 static const char TAG[] = "___NVS APP___";

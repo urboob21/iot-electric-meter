@@ -1,3 +1,4 @@
+#include "include.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -13,12 +14,8 @@
 #include <sys/param.h>
 
 #include "esp_log.h"
-#include "tasks_common.h"
-#include "mqtt_app.h"
 #include "esp_tls.h"
-#include "gpio_app.h"
-#include "rgb_led.h"
-#include "lcd2004_app.h"
+#include "components/rgb/rgb_led.h"
 
 // Tag used for ESP Serial Console Message
 static const char TAG[] = "MQTT Application";

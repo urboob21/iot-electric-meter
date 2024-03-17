@@ -102,7 +102,15 @@
     "cjson.h": "c",
     "fwd.h": "c",
     "control.h": "c",
-    "api.h": "c"
+    "api.h": "c",
+    "wifiapplication.h": "c",
+    "taskscommon.h": "c",
+    "usergpios.h": "c",
+    "httpserver.h": "c",
+    "nvsapplication.h": "c",
+    "nvs.h": "c",
+    "mqtt.h": "c",
+    "include.h": "c"
   },
   "idf.flashType": "UART",
   "idf.portWin": "COM6",

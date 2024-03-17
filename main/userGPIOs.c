@@ -1,15 +1,14 @@
-#include "gpio_app.h"
-#include "tasks_common.h"
+#include "userGPIOs.h"
+#include "tasksCommon.h"
 #include <stdio.h>
 #include "esp_log.h"
 #include <driver/gpio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
-#include "rgb_led.h"
-#include "wifi_app.h"
-#include "lcd2004_app.h"
-#include "mqtt_app.h"
+#include "components/rgb/rgb_led.h"
+#include "wifiApplication.h"
+#include "MQTT.h"
 
 TaskHandle_t turnOnWarningHandle = NULL;
 // Semaphore handle
@@ -40,13 +39,12 @@ static void gpio_app_detect_fire_task()
     {
         if (xSemaphoreTake(reset_semphore, portMAX_DELAY) == pdTRUE)
         {
-		// Public to mqtt if connect success
-		if (g_mqtt_connect_status == MQTT_APP_CONNECT_SUCCESS)
-		{
-			mqtt_app_send_message(MQTT_APP_MSG_OFFWARNING);
-		}
+            // Public to mqtt if connect success
+            if (g_mqtt_connect_status == MQTT_APP_CONNECT_SUCCESS)
+            {
+                mqtt_app_send_message(MQTT_APP_MSG_OFFWARNING);
+            }
         }
-        
     }
 }
 
@@ -80,11 +78,11 @@ void gpio_app_turn_warning(bool state)
     gpio_set_level(GPIO_APP_PIN_BUZ, state);
     if (state)
     {
-       // lcd2004_app_send_message(LCD2004_MSG_ON_WARNING);
+        // lcd2004_app_send_message(LCD2004_MSG_ON_WARNING);
     }
     else
     {
-        //lcd2004_app_send_message(LCD2004_MSG_OFF_WARNING);
+        // lcd2004_app_send_message(LCD2004_MSG_OFF_WARNING);
     }
 }
 
@@ -115,7 +113,4 @@ void gpio_app_task_start(void)
     reset_button_config();
     xTaskCreatePinnedToCore(&gpio_app_detect_fire_task, "gpio_app_task", GPIO_APP_TASK_STACK_SIZE,
                             NULL, GPIO_APP_TASK_PRIORITY, NULL, GPIO_APP_TASK_CORE_ID);
-
-    // xTaskCreatePinnedToCore(&gpio_app_turn_on_warning_task, "gpio_app_task", GPIO_APP_TASK_STACK_SIZE,
-    //                         NULL, GPIO_APP_TASK_PRIORITY, &turnOnWarningHandle, GPIO_APP_TASK_CORE_ID);
 }

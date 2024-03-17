@@ -1,13 +1,11 @@
-#include "lcd2004_app.h"
+#include "include.h"
 #include <stdio.h>
 #include "esp_log.h"
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "hd44780/api.h"
-#include "hd44780/config.h"
-#include "tasks_common.h"
-#include "mqtt_app.h"
+#include "components/hd44780/lcd.h"
+#include "tasksCommon.h"
 static const char *TAG = "LCD_2004";
 
 // Queue handle
