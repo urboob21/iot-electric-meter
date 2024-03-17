@@ -4,11 +4,9 @@
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "lcd.h"
-#include "config.h"
+#include "hd44780/api.h"
+#include "hd44780/config.h"
 #include "tasks_common.h"
-#include "dht22.h"
-#include "mq2.h"
 #include "mqtt_app.h"
 static const char *TAG = "LCD_2004";
 
@@ -68,10 +66,10 @@ static void lcd2004_app_task(void *pvParameters)
 
             case LCD2004_MSG_DISPLAY_TEMHUM:
                 lcd_set_cursor(&lcd_handle, 0, 1);
-                sprintf(str, "Temp (oC) : %.1f", getTemperature());
+                sprintf(str, "Temp (oC) : %.1f", 0);
                 lcd_write_str(&lcd_handle, str);
                 lcd_set_cursor(&lcd_handle, 0, 2);
-                sprintf(str, "Humid(\%) : %.1f", getHumidity());
+                sprintf(str, "Humid(\%) : %.1f", 0);
                 lcd_write_str(&lcd_handle, str);
                 break;
 

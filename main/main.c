@@ -6,11 +6,9 @@
 #include "esp_event.h"
 #include "wifi_app.h"
 #include "nvs_flash.h"
-#include "dht22.h"
 #include "mqtt_app.h"
 #include "gpio_app.h"
 #include "lcd2004_app.h"
-#include "mq2.h"
 void wifi_app_register_connected_events()
 {
 	mqtt_app_start();
@@ -30,11 +28,8 @@ void app_main(void)
 	}
 	ESP_ERROR_CHECK(ret);
 
-	mq2_app_main();
-	
 	// Start flame + warning sensor
 	gpio_app_task_start();
-
 
 	// Register the funtion callback MQTT when connected successfully wifi host
 	wifi_app_set_callback(*wifi_app_register_connected_events);

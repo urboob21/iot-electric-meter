@@ -99,7 +99,10 @@
     "esp_adc_cal.h": "c",
     "config.h": "c",
     "esp_netif.h": "c",
-    "cjson.h": "c"
+    "cjson.h": "c",
+    "fwd.h": "c",
+    "control.h": "c",
+    "api.h": "c"
   },
   "idf.flashType": "UART",
   "idf.portWin": "COM6",
