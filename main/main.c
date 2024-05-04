@@ -27,9 +27,6 @@ void app_main(void)
 	}
 	ESP_ERROR_CHECK(ret);
 
-	// Reset button
-	gpio_app_task_start();
-
 	// Register the funtion callback MQTT when connected successfully wifi host
 	wifi_app_set_callback(*wifi_app_register_connected_events);
 	
