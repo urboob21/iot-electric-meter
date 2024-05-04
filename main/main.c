@@ -7,7 +7,7 @@
 #include "nvs_flash.h"
 #include "include.h"
 
-// The callback function when wifi connected
+// Register the callback function when wifi connected
 void wifi_app_register_connected_events()
 {
 	mqtt_app_start();
@@ -27,7 +27,7 @@ void app_main(void)
 	}
 	ESP_ERROR_CHECK(ret);
 
-	// Start flame + warning sensor
+	// Reset button
 	gpio_app_task_start();
 
 	// Register the funtion callback MQTT when connected successfully wifi host

@@ -6,7 +6,7 @@
 #include "freertos/task.h"
 #include "components/hd44780/lcd.h"
 #include "tasksCommon.h"
-static const char *TAG = "LCD_2004";
+static const char *TAG = "LCD 2004";
 
 // Queue handle
 static QueueSetHandle_t lcd2004_app_queue_handle;

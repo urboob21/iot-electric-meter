@@ -18,7 +18,7 @@
 #include "components/rgb/rgb_led.h"
 
 // Tag used for ESP Serial Console Message
-static const char TAG[] = "MQTT Application";
+static const char TAG[] = "MQTT APPLICATION";
 
 int coResult;
 // Task Handle

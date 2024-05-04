@@ -21,12 +21,11 @@
 
 
 // Tag used for ESP Serial Console Message
-static const char TAG[] = "Wifi application";
+static const char TAG[] = "WIFI APPLICATION";
 
 // Queue handle
 static QueueSetHandle_t wifi_app_queue_handle;
 
-//
 extern int g_mqtt_connect_status;
 
 // Used for returning the WiFi configuration
@@ -437,8 +436,8 @@ static void wifi_app_task(void *pvParameters)
 }
 
 /**
- * Entry start
- */
+ * Wifi task entry
+*/
 void wifi_app_start()
 {
 	ESP_LOGI(TAG, "STARTING WIFI APPLICATION");

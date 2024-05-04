@@ -20,7 +20,7 @@
 #include "wifiApplication.h"
 #include "esp_timer.h"
 
-static const char TAG[] = "HTTP Server application";
+static const char TAG[] = "HTTP SERVER";
 
 // Wifi connect status
 static int g_wifi_connect_status = NONE;
