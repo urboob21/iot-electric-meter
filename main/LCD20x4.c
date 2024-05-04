@@ -26,7 +26,7 @@ BaseType_t lcd2004_app_send_message(lcd2004_app_id_message_t msgID)
     return xQueueSend(lcd2004_app_queue_handle, &msg, portMAX_DELAY);
 }
 
-void clear_row(uint row)
+void clear_row(int row)
 {
     lcd_set_cursor(&lcd_handle, 0, row);
     lcd_write_str(&lcd_handle, "                   ");
