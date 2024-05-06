@@ -64,10 +64,10 @@ static void lcd2004_app_task(void *pvParameters)
 
             case LCD2004_MSG_DISPLAY_TEMHUM:
                 lcd_set_cursor(&lcd_handle, 0, 1);
-                sprintf(str, "Temp (oC) : %.1f", 0);
+                // sprintf(str, "Temp (oC) : %.1f", 0);
                 lcd_write_str(&lcd_handle, str);
                 lcd_set_cursor(&lcd_handle, 0, 2);
-                sprintf(str, "Humid(\%) : %.1f", 0);
+                // sprintf(str, "Humid(\%) : %.1f", 0);
                 lcd_write_str(&lcd_handle, str);
                 break;
 

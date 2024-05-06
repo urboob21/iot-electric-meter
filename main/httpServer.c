@@ -226,7 +226,7 @@ static esp_err_t http_server_js_handler(httpd_req_t *r)
 
 /**
  * repspond icon web page
-*/
+ */
 static esp_err_t http_server_ico_handler(httpd_req_t *r)
 {
 	ESP_LOGI(TAG, "ICO requested");
@@ -391,8 +391,8 @@ esp_err_t http_server_dht_sensor_json_handler(httpd_req_t *r)
 	ESP_LOGI(TAG, "/dhtSensor.json requested");
 
 	char dhtSensorJSON[100];
-	sprintf(dhtSensorJSON, "{\"temp\":\"%.1f\",\"humidity\":\"%.1f\"}",
-			0, 0);
+	// sprintf(dhtSensorJSON, "{\"temp\":\"%.1f\",\"humidity\":\"%.1f\"}",
+	// 		0, 0);
 	httpd_resp_set_type(r, "application/json");
 	httpd_resp_send(r, dhtSensorJSON, strlen(dhtSensorJSON));
 	return ESP_OK;

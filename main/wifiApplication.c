@@ -84,7 +84,7 @@ void wifi_app_call_callback()
  */
 void wifi_app_set_callback(wifi_connected_event_callback_t cbFuntion)
 {
-	wifi_connected_event_cb = cbFuntion;
+	// wifi_connected_event_cb = cbFuntion;
 }
 
 /**
@@ -448,7 +448,7 @@ void wifi_app_start()
 	// Create Message Queue
 	wifi_app_queue_handle = xQueueCreate(3, sizeof(wifi_app_queue_message_t));
 
-	// Create Wifi application event group
+	// Create Wifi application event group - check whether wifi connected
 	wifi_app_event_group = xEventGroupCreate();
 
 	// Start the WIFI Application task

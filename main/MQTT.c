@@ -25,8 +25,8 @@ int coResult;
 TaskHandle_t tHandler_mqtt_app = NULL;
 
 // Embedded certificate .bem file
-extern const uint8_t mqtt_eclipseprojects_io_pem_start[] asm("_binary_mqtt_eclipseprojects_io_pem_start");
-extern const uint8_t mqtt_eclipseprojects_io_pem_end[] asm("_binary_mqtt_eclipseprojects_io_pem_end");
+// extern const uint8_t mqtt_eclipseprojects_io_pem_start[] asm("_binary_mqtt_eclipseprojects_io_pem_start");
+// extern const uint8_t mqtt_eclipseprojects_io_pem_end[] asm("_binary_mqtt_eclipseprojects_io_pem_end");
 
 // Queue handle msg
 static QueueHandle_t mqtt_app_queue_handle;
@@ -255,7 +255,7 @@ static void mqtt_app_config()
     const esp_mqtt_client_config_t mqtt_cfg = {
         .broker = {
             .address.uri = MQTT_APP_BROKER_URI,
-            .verification.certificate = (const char *)mqtt_eclipseprojects_io_pem_start},
+            .verification.certificate = (const char *)""},
         .credentials = {.username = MQTT_APP_USER, .authentication.password = MQTT_APP_PASSWORD}};
     ESP_LOGI(TAG, "[APP] Free memory: %" PRIu32 " bytes", esp_get_free_heap_size());
 
