@@ -13,7 +13,7 @@
 
 <body>
     <header>
-        <h1>ESP32 Dashboard</h1>
+        <h1>IOT Dashboard</h1>
     </header>
 
     <div id="OTA">
@@ -30,17 +30,40 @@
     </div>
     <hr>
 
-    <div id="DHT22Sensor">
-        <h2>DHT22 Sensor Readings</h2>
-        <div class="sensor-reading">
-            <label for="temperature_reading">Temperature: </label>
-            <div id="temperature_reading"></div>
-        </div>
-        <div class="sensor-reading">
-            <label for="humidity_reading">Humidity: </label>
-            <div id="humidity_reading"></div>
-        </div>
+    <div id="digi-iot-value-table">
+        <h2>Công tơ điện tử</h2>
+        <table>
+            <tr>
+                <td class="sensor-label">Device ID:</td>
+                <td id="deviceId_reading"></td>
+            </tr>
+            <tr>
+                <td class="sensor-label">Thời gian hiện tại:</td>
+                <td id="time_reading"></td>
+            </tr>
+            <tr>
+                <td class="sensor-label">Điện áp:</td>
+                <td id="voltage_reading"></td>
+            </tr>
+            <tr>
+                <td class="sensor-label">Dòng điện:</td>
+                <td id="current_reading"></td>
+            </tr>
+            <tr>
+                <td class="sensor-label">Công suất:</td>
+                <td id="power_reading"></td>
+            </tr>
+            <tr>
+                <td class="sensor-label">Tần số:</td>
+                <td id="freq_reading"></td>
+            </tr>
+            <tr>
+                <td class="sensor-label">Số chỉ:</td>
+                <td id="energy_reading"></td>
+            </tr>
+        </table>
     </div>
+
     <hr>
 
     <div id="WiFiConnect">

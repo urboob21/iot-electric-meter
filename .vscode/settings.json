@@ -116,7 +116,8 @@
     "stdlib.h": "c",
     "time_sntp.h": "c",
     "sntp_time_sync.h": "c",
-    "httpserver.h": "c"
+    "httpserver.h": "c",
+    "pzem.h": "c"
   },
   "idf.flashType": "UART"
 }

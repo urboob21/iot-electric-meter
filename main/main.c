@@ -93,7 +93,7 @@ void app_main(void)
 		pzemData.current=100;
 		pzemData.voltage=200;
 		pzemData.frequency=60;
-		pzemData.energy=110;
+		pzemData.power=110;
 		pzemData.energy=0.001;
 		// send msg to mqtt task to server
 		vTaskDelay(1000 / portTICK_PERIOD_MS);

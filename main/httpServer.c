@@ -20,6 +20,13 @@
 #include "wifiApplication.h"
 #include "esp_timer.h"
 
+// Data user
+#include "aws_iot/config_aws_iot.h"
+#include "time/sntp_time_sync.h"
+#include "pzem.h"
+extern SemaphoreHandle_t xSemaphoreAWS;
+extern pzem_sensor_t pzemData;
+
 static const char TAG[] = "HTTP SERVER";
 
 // Wifi connect status
@@ -385,16 +392,17 @@ esp_err_t http_server_ota_status_handler(httpd_req_t *r)
 /**
  * DHT sensor readings JSON handler responds with DHT22 sensor data
  */
-esp_err_t http_server_dht_sensor_json_handler(httpd_req_t *r)
+esp_err_t http_server_sensor_json_handler(httpd_req_t *r)
 {
+	ESP_LOGI(TAG, "/sensor.json requested");
 
-	ESP_LOGI(TAG, "/dhtSensor.json requested");
+	char sensorJSON[300];
+    xSemaphoreTake(xSemaphoreAWS, portMAX_DELAY);
+    sprintf(sensorJSON, "{\"deviceId\": \"%s\", \"deviceName\": \"%s\", \"timestamp\": \"%s\", \"email\": \"%s\", \"data\": { \"voltage\": %1.f, \"current\": %1.f, \"frequency\": \"%1.f\", \"power\": %2.f, \"energy\": %3.f }}", "0000", CLIENT_IDENTIFIER, sntp_time_sync_get_time(), CLIENT_EMAIL, pzemData.voltage, pzemData.current, pzemData.frequency, pzemData.power, pzemData.energy);
+    xSemaphoreGive(xSemaphoreAWS);
 
-	char dhtSensorJSON[100];
-	// sprintf(dhtSensorJSON, "{\"temp\":\"%.1f\",\"humidity\":\"%.1f\"}",
-	// 		0, 0);
 	httpd_resp_set_type(r, "application/json");
-	httpd_resp_send(r, dhtSensorJSON, strlen(dhtSensorJSON));
+	httpd_resp_send(r, sensorJSON, strlen(sensorJSON));
 	return ESP_OK;
 }
 
@@ -581,7 +589,7 @@ static httpd_handle_t http_server_configure()
 		httpd_register_uri_handler(http_server_handle, &OTA_status);
 
 		// register dhtSensor.json handler
-		httpd_uri_t dht_sensor_json = {.uri = "/dhtSensor.json", .method = HTTP_GET, .handler = http_server_dht_sensor_json_handler, .user_ctx = NULL};
+		httpd_uri_t dht_sensor_json = {.uri = "/sensor.json", .method = HTTP_GET, .handler = http_server_sensor_json_handler, .user_ctx = NULL};
 		httpd_register_uri_handler(http_server_handle, &dht_sensor_json);
 
 		// register wifiConnect.json handler

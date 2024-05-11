@@ -14,13 +14,13 @@ header {
 }
 
 h1{
-    color: #000000;
+    color: #ffffff;
 }
 h2, h3, h4 {
     color: #1d3557;
 }
 
-#OTA, #DHT22Sensor, #WiFiConnect {
+#OTA, #digi-iot-value-table, #WiFiConnect {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -50,6 +50,54 @@ input[type="button"]:hover {
 
 .sensor-reading {
     margin-bottom: 15px;
+}
+
+#voltage_reading:after {
+    content: " V"; /* Điện áp */
+}
+
+#freq_reading:after {
+    content: " Hz"; /* Tần số */
+}
+
+#current_reading:after {
+    content: " A"; /* Dòng điện */
+}
+
+#power_reading:after {
+    content: " W"; /* Công suất */
+}
+
+#energy_reading:after {
+    content: " kW"; /* Công suất kW */
+}
+
+
+.sensor-label {
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+#digi-iot-value-table {
+    margin-top: 15px;
+}
+
+#digi-iot-value-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#digi-iot-value-table table tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+#digi-iot-value-table table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+#digi-iot-value-table table td:first-child {
+    width: 200px;
 }
 
 input[type="text"], input[type="password"] {

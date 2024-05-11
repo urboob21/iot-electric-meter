@@ -112,20 +112,36 @@ function otaRebootTimer() {
 }
 
 /**
- * Gets DHT22 sensor temperature and humidity values for display on the web page.
+ * Gets values from sensor for display on the web page.
  */
-function getDHTSensorValues() {
-	$.getJSON('/dhtSensor.json', function (data) {
-		$("#temperature_reading").text(data["temp"]);
-		$("#humidity_reading").text(data["humidity"]);
-	});
+// function getSensorValues() {
+// 	$.getJSON('/sensor.json', function (data) {
+// 		$("#deviceId_reading").text(data["deviceId"]);
+// 		$("#time_reading").text(data["timestamp"]);
+// 		$("#voltage_reading").text(data["voltage"]);
+// 		$("#current_reading").text(data["current"]);
+// 		$("#power_reading").text(data["power"]);
+// 		$("#freq_reading").text(data["frequency"]);
+// 		$("#energy_reading").text(data["energy"]);
+// 	});
+// }
+function getSensorValues() {
+    $.getJSON('/sensor.json', function (data) {
+        $("#deviceId_reading").text(data.deviceId);
+        $("#time_reading").text(data.timestamp);
+        $("#voltage_reading").text(data.data.voltage);
+        $("#current_reading").text(data.data.current);
+        $("#power_reading").text(data.data.power);
+        $("#freq_reading").text(data.data.frequency);
+        $("#energy_reading").text(data.data.energy);
+    });
 }
 
 /**
  * Sets the interval for getting the updated DHT22 sensor values.
  */
 function startDHTSensorInterval() {
-	setInterval(getDHTSensorValues, 2000);
+	setInterval(getSensorValues, 1000);
 }
 
 /**
