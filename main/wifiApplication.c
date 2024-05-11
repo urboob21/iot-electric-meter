@@ -16,7 +16,11 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "freertos/FreeRTOS.h"
-#include "include.h"
+#include "userGPIOs.h"
+#include "tasksCommon.h"
+#include "wifiApplication.h"
+#include "httpServer.h"
+#include "nvs.h"
 
 
 
@@ -26,7 +30,7 @@ static const char TAG[] = "WIFI APPLICATION";
 // Queue handle
 static QueueSetHandle_t wifi_app_queue_handle;
 
-extern int g_mqtt_connect_status;
+// extern int g_mqtt_connect_status;
 
 // Used for returning the WiFi configuration
 wifi_config_t *wifi_config = NULL;
@@ -204,10 +208,10 @@ static void wifi_app_event_handler(void *event_handler_arg,
 			ESP_LOGI(TAG, "WIFI_EVENT_STA_DISCONNECTED");
 
 			// Disconnected the MQTT
-			if (g_mqtt_connect_status != MQTT_APP_CONNECT_NONE)
-			{
-				mqtt_app_send_message(MQTT_APP_MSG_DISCONNECTED);
-			}
+			// if (g_mqtt_connect_status != MQTT_APP_CONNECT_NONE)
+			// {
+			// 	mqtt_app_send_message(MQTT_APP_MSG_DISCONNECTED);
+			// }
 
 			// malloc
 			wifi_event_sta_disconnected_t *wifi_event_sta_disconnected = (wifi_event_sta_disconnected_t *)malloc(sizeof(wifi_event_sta_disconnected_t));

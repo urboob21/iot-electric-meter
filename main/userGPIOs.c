@@ -6,14 +6,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
-#include "components/rgb/rgb_led.h"
+#include "rgb/rgb_led.h"
 #include "wifiApplication.h"
-#include "MQTT.h"
 
 TaskHandle_t turnOnWarningHandle = NULL;
 // Semaphore handle
 SemaphoreHandle_t reset_semphore = NULL;
-extern int g_mqtt_connect_status;
+// extern int g_mqtt_connect_status;
 /**
  * gpio_app config
  */
@@ -30,23 +29,23 @@ static void gpio_app_config()
     gpio_set_direction(GPIO_APP_PIN_BTN, GPIO_MODE_INPUT);
 }
 
-/**
- * gpio_app task
- */
-static void gpio_app_detect_fire_task()
-{
-    for (;;)
-    {
-        if (xSemaphoreTake(reset_semphore, portMAX_DELAY) == pdTRUE)
-        {
-            // Public to mqtt if connect success
-            if (g_mqtt_connect_status == MQTT_APP_CONNECT_SUCCESS)
-            {
-                mqtt_app_send_message(MQTT_APP_MSG_OFFWARNING);
-            }
-        }
-    }
-}
+// /**
+//  * gpio_app task
+//  */
+// static void gpio_app_detect_fire_task()
+// {
+//     for (;;)
+//     {
+//         if (xSemaphoreTake(reset_semphore, portMAX_DELAY) == pdTRUE)
+//         {
+//             // Public to mqtt if connect success
+//             if (g_mqtt_connect_status == MQTT_APP_CONNECT_SUCCESS)
+//             {
+//                 mqtt_app_send_message(MQTT_APP_MSG_OFFWARNING);
+//             }
+//         }
+//     }
+// }
 
 /**
  * ISR handler for the Wifi reset (BOOT) button

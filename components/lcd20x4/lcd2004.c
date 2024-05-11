@@ -1,30 +1,15 @@
-#include "include.h"
+#include "lcd2004.h"
 #include <stdio.h>
 #include "esp_log.h"
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "components/hd44780/lcd.h"
-#include "tasksCommon.h"
-static const char *TAG = "LCD 2004";
 
-// Queue handle
-static QueueSetHandle_t lcd2004_app_queue_handle;
+#include "config.h"
 
-static void initialise(void);
-static void lcd_demo(void);
-extern int coResult;
+static const char *TAG = "LCD_2004";
+
 lcd_handle_t lcd_handle = LCD_HANDLE_DEFAULT_CONFIG();
-
-/**
- * Send the message to queue
- */
-BaseType_t lcd2004_app_send_message(lcd2004_app_id_message_t msgID)
-{
-    lcd2004_app_message_t msg;
-    msg.msgId = msgID;
-    return xQueueSend(lcd2004_app_queue_handle, &msg, portMAX_DELAY);
-}
 
 void clear_row(int row)
 {
@@ -32,81 +17,8 @@ void clear_row(int row)
     lcd_write_str(&lcd_handle, "                   ");
 }
 
-/**
- * Main task for WIFI application
- */
-static void lcd2004_app_task(void *pvParameters)
-{
-    initialise();
-    char str[80];
-    // Store a message from Queue message
-    lcd2004_app_message_t msg;
-    lcd2004_app_send_message(LCD2004_MSG_DISPLAY_HOME);
-    for (;;)
-    {
-        if (xQueueReceive(lcd2004_app_queue_handle, &msg, portMAX_DELAY))
-        {
-            // Case of receive the message from queue -> store into msg
-            ESP_LOGI(TAG, "Received the message:");
-            switch (msg.msgId)
-            {
-            case LCD2004_MSG_DISPLAY_HOME:
-                ESP_LOGI(TAG,
-                         "LCD handle:\n\ti2c_port: %d\n\tAddress: 0x%0x\n\tColumns: %d\n\tRows: %d\n\tDisplay Function: 0x%0x\n\tDisplay Control: 0x%0x\n\tDisplay Mode: 0x%0x\n\tCursor Column: %d\n\tCursor Row: %d\n\tBacklight: %d\n\tInitialised: %d",
-                         lcd_handle.i2c_port, lcd_handle.address, lcd_handle.columns, lcd_handle.rows,
-                         lcd_handle.display_function, lcd_handle.display_control, lcd_handle.display_mode,
-                         lcd_handle.cursor_column, lcd_handle.cursor_row, lcd_handle.backlight,
-                         lcd_handle.initialized);
-                lcd_home(&lcd_handle);
-                lcd_clear_screen(&lcd_handle);
-                lcd_write_str(&lcd_handle, " FIRE ALARM SYSTEM");
-                break;
-
-            case LCD2004_MSG_DISPLAY_TEMHUM:
-                lcd_set_cursor(&lcd_handle, 0, 1);
-                // sprintf(str, "Temp (oC) : %.1f", 0);
-                lcd_write_str(&lcd_handle, str);
-                lcd_set_cursor(&lcd_handle, 0, 2);
-                // sprintf(str, "Humid(\%) : %.1f", 0);
-                lcd_write_str(&lcd_handle, str);
-                break;
-
-            case LCD2004_MSG_DISPLAY_CO:
-                clear_row(3);
-                lcd_set_cursor(&lcd_handle, 0, 3);
-               // int out = (int)getCop() < 10000 ? (int)getCop() : 10000;
-                sprintf(str, "CO (ppm) : %d", coResult);
-                lcd_write_str(&lcd_handle, str);
-                break;
-
-            case LCD2004_MSG_ON_WARNING:
-                clear_row(0);
-                lcd_home(&lcd_handle);
-                lcd_write_str(&lcd_handle, "!!! WARNINGG !!! ");
-                break;
-
-            case LCD2004_MSG_OFF_WARNING:
-                lcd2004_app_send_message(LCD2004_MSG_DISPLAY_HOME);
-                break;
-            }
-        }
-    }
-}
-
-void lcd2004_app_start(void)
-{
-
-    // Create Message Queue
-    lcd2004_app_queue_handle = xQueueCreate(3, sizeof(lcd2004_app_message_t));
-
-    // Start the WIFI Application task
-    xTaskCreatePinnedToCore(&lcd2004_app_task, "LCD_APP_TASK",
-                            LCD_APP_TASK_STACK_SIZE, NULL, LCD_APP_TASK_PRIORITY, NULL,
-                            LCD_APP_TASK_CORE_ID);
-}
-
 // Perform initilisation functions
-static void initialise(void)
+void initialise()
 {
     i2c_config_t i2c_config = {
         .mode = I2C_MODE_MASTER,
@@ -144,7 +56,7 @@ static void initialise(void)
 /**
  * @brief Demonstrate the LCD
  */
-static void lcd_demo(void)
+void lcd_demo()
 {
     char num[20];
     char c = '!'; // first ascii char

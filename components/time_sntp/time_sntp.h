@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <time.h>
 #include <sys/time.h>
 #include "freertos/FreeRTOS.h"
@@ -14,5 +13,5 @@
 
 void setupTime(void);
 
-std::string getTimeString(const char * frm);
-void setTimeZone(std::string _tzstring);
+char* getTimeString(const char * frm);
+void setTimeZone(char * _tzstring);
