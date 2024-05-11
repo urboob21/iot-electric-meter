@@ -64,6 +64,11 @@ extern const char client_key_end[] asm("_binary_client_key_end");
 extern const char root_cert_auth_start[] asm("_binary_root_cert_auth_crt_start");
 extern const char root_cert_auth_end[] asm("_binary_root_cert_auth_crt_end");
 
+// from main
+#include "pzem.h"
+extern SemaphoreHandle_t xSemaphoreAWS;
+extern pzem_sensor_t pzemData;
+
 /**
  * These configuration settings are required to run the mutual auth demo.
  * Throw compilation error if the below configs are not defined.
@@ -180,7 +185,7 @@ extern const char root_cert_auth_end[] asm("_binary_root_cert_auth_crt_end");
 /**
  * @brief Delay between MQTT publishes in seconds.
  */
-#define DELAY_BETWEEN_PUBLISHES_SECONDS (1U)
+#define DELAY_BETWEEN_PUBLISHES_SECONDS (2U)
 
 /**
  * @brief Number of PUBLISH messages sent per iteration.
@@ -1293,7 +1298,11 @@ static int publishToTopic(MQTTContext_t *pMqttContext)
 {
     // define the message
     char payLoad[300];
-    sprintf(payLoad, "{\"deviceId\": \"0000\", \"deviceName\": \"Thing 0000\", \"timestamp\": \"%s\", \"email\": \"nphong2103@gmail.com\", \"data\": { \"voltage\": 220.5, \"current\": 1.5, \"frequency\": \"50Hz\", \"power\": 330.75, \"energy\": 1500.25 }}", sntp_time_sync_get_time());
+    xSemaphoreTake(xSemaphoreAWS, portMAX_DELAY);
+    // sprintf(payLoad, "{\"deviceId\": \"0000\", \"deviceName\": \"Thing 0000\", \"timestamp\": \"%s\", \"email\": \"nphong2103@gmail.com\", \"data\": { \"voltage\": 220.5, \"current\": 1.5, \"frequency\": \"50Hz\", \"power\": 330.75, \"energy\": 1500.25 }}", sntp_time_sync_get_time());
+    sprintf(payLoad, "{\"deviceId\": \"%s\", \"deviceName\": \"%s\", \"timestamp\": \"%s\", \"email\": \"%s\", \"data\": { \"voltage\": %1.f, \"current\": %1.f, \"frequency\": \"%1.f\", \"power\": %2.f, \"energy\": %3.f }}", "0000", CLIENT_IDENTIFIER, sntp_time_sync_get_time(), CLIENT_EMAIL, pzemData.voltage, pzemData.current, pzemData.frequency, pzemData.power, pzemData.energy);
+    xSemaphoreGive(xSemaphoreAWS);
+
     //==============================//
     int returnStatus = EXIT_SUCCESS;
     MQTTStatus_t mqttStatus = MQTTSuccess;
@@ -1486,10 +1495,10 @@ static int subscribePublishLoop(MQTTContext_t *pMqttContext)
                 break;
             }
 
-            LogInfo(("Delay before continuing to next iteration.\n\n"));
+            // LogInfo(("Delay before continuing to next iteration.\n\n"));
 
             /* Leave connection idle for some time. */
-            sleep(DELAY_BETWEEN_PUBLISHES_SECONDS);
+            // sleep(DELAY_BETWEEN_PUBLISHES_SECONDS);
         }
     }
 

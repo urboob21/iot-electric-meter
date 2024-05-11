@@ -13,7 +13,7 @@
 #include "pzem.h"
 #include "time/sntp_time_sync.h"
 #include "lcd2004.h"
-
+SemaphoreHandle_t xSemaphoreAWS;
 pzem_sensor_t pzemData;
 
 int aws_iot_demo_main(int argc, char **argv);
@@ -71,6 +71,8 @@ void app_main(void)
 	}
 	ESP_ERROR_CHECK(ret);
 
+	xSemaphoreAWS = xSemaphoreCreateMutex();
+
 	// init the LCD
 	// initialise();
 
@@ -87,8 +89,16 @@ void app_main(void)
 		// get and display data from pzem
 		// pzem_sensor_request(&pzemData, PZEM_DEFAULT_ADDR);
 		// pzem_lcd_display();
-
+		xSemaphoreTake(xSemaphoreAWS, portMAX_DELAY);
+		pzemData.current=100;
+		pzemData.voltage=200;
+		pzemData.frequency=60;
+		pzemData.energy=110;
+		pzemData.energy=0.001;
 		// send msg to mqtt task to server
 		vTaskDelay(1000 / portTICK_PERIOD_MS);
+		xSemaphoreGive(xSemaphoreAWS);
+
+
 	}
 }
