@@ -88,7 +88,7 @@ void wifi_app_call_callback()
  */
 void wifi_app_set_callback(wifi_connected_event_callback_t cbFuntion)
 {
-	// wifi_connected_event_cb = cbFuntion;
+	wifi_connected_event_cb = cbFuntion;
 }
 
 /**

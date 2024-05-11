@@ -12,7 +12,7 @@
       "interface/ftdi/esp32_devkitj_v1.cfg",
       "target/esp32.cfg"
   ],
-  "idf.portWin": "COM4",
+  "idf.portWin": "COM5",
   "idf.pythonBinPathWin": "d:\\Espressif\\python_env\\idf5.2_py3.11_env\\Scripts\\python.exe",
   "idf.toolsPathWin": "d:\\Espressif",
   "files.associations": {
@@ -113,7 +113,9 @@
     "usergpios.h": "c",
     "logging_stack.h": "c",
     "assert.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "time_sntp.h": "c",
+    "sntp_time_sync.h": "c"
   },
   "idf.flashType": "UART"
 }

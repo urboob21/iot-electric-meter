@@ -11,7 +11,7 @@
 #include "httpServer.h"
 #include "nvs.h"
 #include "pzem.h"
-#include "time_sntp.h"
+#include "time/sntp_time_sync.h"
 #include "lcd2004.h"
 
 pzem_sensor_t pzemData;
@@ -22,7 +22,7 @@ int aws_iot_demo_main(int argc, char **argv);
 void wifi_app_register_connected_events()
 {
 	// settup the sntp
-
+	sntp_time_sync_task_start();
 	// start mqtt
 	aws_iot_demo_main(0, NULL);
 }
@@ -85,9 +85,10 @@ void app_main(void)
 	while (1)
 	{
 		// get and display data from pzem
-		pzem_sensor_request(&pzemData, PZEM_DEFAULT_ADDR);
-		pzem_lcd_display();
+		// pzem_sensor_request(&pzemData, PZEM_DEFAULT_ADDR);
+		// pzem_lcd_display();
 
 		// send msg to mqtt task to server
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }
