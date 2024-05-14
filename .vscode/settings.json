@@ -12,7 +12,7 @@
       "interface/ftdi/esp32_devkitj_v1.cfg",
       "target/esp32.cfg"
   ],
-  "idf.portWin": "COM5",
+  "idf.portWin": "COM3",
   "idf.pythonBinPathWin": "d:\\Espressif\\python_env\\idf5.2_py3.11_env\\Scripts\\python.exe",
   "idf.toolsPathWin": "d:\\Espressif",
   "files.associations": {

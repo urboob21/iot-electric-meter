@@ -27,36 +27,48 @@ void wifi_app_register_connected_events()
 	aws_iot_demo_main(0, NULL);
 }
 
+void float_to_string(float num, char *str, int decimal_places)
+{
+	// Convert float to string with given decimal places
+	sprintf(str, "%.*f", decimal_places, num);
+}
+
 void pzem_lcd_display()
 {
-
 	char str[80];
-	// display to the LCD
-	lcd_clear_screen(&lcd_handle);
+	// Display to the LCD
+	// lcd_clear_screen(&lcd_handle);
+
+	// lcd_set_cursor(&lcd_handle, 16, 0);		// Set cursor position for frequency
+	// float_to_string(pzemData.frequency, str, 0); // Convert frequency to string
+	// lcd_write_str(&lcd_handle, str);		// Write frequency value
+	// lcd_write_str(&lcd_handle, "Hz ");		// Write units for frequency
+
 	lcd_set_cursor(&lcd_handle, 0, 0);
-	lcd_write_str(&lcd_handle, "D.AP: ");
-	printf(str, "%1.f", pzemData.voltage);
+	lcd_write_str(&lcd_handle, "Voltage: ");
+	float_to_string(pzemData.voltage, str, 1);
 	lcd_write_str(&lcd_handle, str);
 	lcd_write_str(&lcd_handle, "V ");
 
 	lcd_set_cursor(&lcd_handle, 0, 1);
-	lcd_write_str(&lcd_handle, "DONG: ");
-	printf(str, "%2.f", pzemData.current);
+	lcd_write_str(&lcd_handle, "Current: ");
+	float_to_string(pzemData.current, str, 2);
 	lcd_write_str(&lcd_handle, str);
-	lcd_write_str(&lcd_handle, "A ");
+	lcd_write_str(&lcd_handle, "A");
 
 	lcd_set_cursor(&lcd_handle, 0, 2);
-	lcd_write_str(&lcd_handle, "C.S: ");
-	printf(str, "%1.f", pzemData.power);
+	lcd_write_str(&lcd_handle, "Power: ");
+	float_to_string(pzemData.power, str, 1);
 	lcd_write_str(&lcd_handle, str);
 	lcd_write_str(&lcd_handle, "W ");
 
 	lcd_set_cursor(&lcd_handle, 0, 3);
-	lcd_write_str(&lcd_handle, "SO CHI: ");
-	printf(str, "%3.f", pzemData.energy);
+	lcd_write_str(&lcd_handle, "Energy: ");
+	float_to_string(pzemData.energy, str, 3);
 	lcd_write_str(&lcd_handle, str);
 	lcd_write_str(&lcd_handle, "kWh ");
 }
+
 //++++++++++++++++++++++++++++++++++++++++++++++++//
 //					ENTRY POINT					  //
 //++++++++++++++++++++++++++++++++++++++++++++++++//
@@ -74,9 +86,9 @@ void app_main(void)
 	xSemaphoreAWS = xSemaphoreCreateMutex();
 
 	// init the LCD
-	// initialise();
+	initialise();
 
-	// pzem_sensor_init();
+	pzem_sensor_init();
 
 	// Register the funtion callback MQTT when connected successfully wifi host
 	wifi_app_set_callback(*wifi_app_register_connected_events);
@@ -87,18 +99,11 @@ void app_main(void)
 	while (1)
 	{
 		// get and display data from pzem
-		// pzem_sensor_request(&pzemData, PZEM_DEFAULT_ADDR);
-		// pzem_lcd_display();
 		xSemaphoreTake(xSemaphoreAWS, portMAX_DELAY);
-		pzemData.current=100;
-		pzemData.voltage=200;
-		pzemData.frequency=60;
-		pzemData.power=110;
-		pzemData.energy=0.001;
+		pzem_sensor_request(&pzemData, PZEM_DEFAULT_ADDR);
+		pzem_lcd_display();
 		// send msg to mqtt task to server
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
 		xSemaphoreGive(xSemaphoreAWS);
-
-
+		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }
