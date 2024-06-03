@@ -95,13 +95,15 @@ void app_main(void)
 
 	// Start WIFI application
 	wifi_app_start();
-
+	lcd_clear_screen(&lcd_handle);
+	// pzem_reset(PZEM_DEFAULT_ADDR);
 	while (1)
 	{
 		// get and display data from pzem
 		xSemaphoreTake(xSemaphoreAWS, portMAX_DELAY);
 		pzem_sensor_request(&pzemData, PZEM_DEFAULT_ADDR);
 		pzem_lcd_display();
+		
 		// send msg to mqtt task to server
 		xSemaphoreGive(xSemaphoreAWS);
 		vTaskDelay(1000 / portTICK_PERIOD_MS);
